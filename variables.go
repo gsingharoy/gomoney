@@ -1,5 +1,7 @@
 package gomoney
 
+import "errors"
+
 // Standard currency values supported by the library
 var supportedCurrencies = map[string]bool{
 	"USD": true,
@@ -34,3 +36,7 @@ var supportedCurrencies = map[string]bool{
 	"THB": true,
 	"ZAR": true,
 }
+
+// Define all errors here
+
+var ErrUnsupportedCurrency = errors.New("unsupported currency")
