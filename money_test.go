@@ -66,3 +66,33 @@ func TestNewMoney(t *testing.T) {
 		assert.Equal(t, &Money{Amount: float64(42), BaseCurrency: strings.ToUpper(curr), exchangeRate: expectedExchangeRate}, m, "the money struct does not match")
 	}
 }
+
+func TestMoneyConvert(t *testing.T) {
+	t.Log("When invalid currency is passed")
+	for _, curr := range []string{"xxx", "yyy", "345", "galleon"} {
+		m := Money{Amount: 100, BaseCurrency: "EUR"}
+		_, err := m.Convert(curr)
+		assert.Equal(t, ErrUnsupportedCurrency, err, "Expected the currency to be unsupported")
+	}
+
+	t.Log("When the money struct is invalid")
+	m1 := Money{BaseCurrency: "invalid curr"}
+	_, err := m1.Convert("EUR")
+	assert.Equal(t, ErrInvalidMoneyObject, err, "Expected invalid money object error")
+
+	m2 := Money{BaseCurrency: "EUR"}
+	_, err = m2.Convert("USD")
+	assert.Equal(t, ErrInvalidMoneyObject, err, "Expected invalid money object error")
+
+	t.Log("When the money struct is valid and a valid currency is passed")
+	m3 := Money{BaseCurrency: "EUR", Amount: 10, exchangeRate: &eurExchangeRate{Rates: map[string]float64{"EUR": 1}}}
+	amt, err := m3.Convert("EUR")
+	assert.Nil(t, err)
+	assert.Equal(t, float64(10), amt, "Expected amount to be the same")
+
+	m4 := Money{BaseCurrency: "USD", Amount: 100, exchangeRate: &eurExchangeRate{Rates: map[string]float64{"EUR": 1, "USD": 1.1, "CHF": 0.9}}}
+	amt, err = m4.Convert("CHF")
+	assert.Nil(t, err)
+	expectedAmount := float64((100 / 1.1) * 0.9)
+	assert.Equal(t, expectedAmount, amt, "Expected amount incorrectly converted")
+}

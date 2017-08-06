@@ -41,3 +41,4 @@ var supportedCurrencies = map[string]bool{
 // Define all errors here
 
 var ErrUnsupportedCurrency = errors.New("unsupported currency")
+var ErrInvalidMoneyObject = errors.New("missing exchange rates")
