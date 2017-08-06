@@ -7,6 +7,8 @@ A library implemented in golang to convert money into other currencies
 ## Description
 This package contains a simple library which converts a currency amount to another supported currency. The exchange rates used here are published by the official [European Central Bank](http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html).
 
+For improved performance the exchange rates are cached and refreshed every 2 hours.
+
 ## Usage
 
 ```go
