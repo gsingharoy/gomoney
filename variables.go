@@ -1,6 +1,10 @@
 package gomoney
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/gsingharoy/onecache"
+)
 
 // Standard currency values supported by the library
 var supportedCurrencies = map[string]bool{
@@ -37,6 +41,9 @@ var supportedCurrencies = map[string]bool{
 	"THB": true,
 	"ZAR": true,
 }
+
+// inmemory cache
+var cache = onecache.New()
 
 // Define all errors here
 
