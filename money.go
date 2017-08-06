@@ -10,8 +10,8 @@ type Money struct {
 	Amount float64
 	// Base currency of the amount.
 	BaseCurrency string
-	// Converted values of the amount in various currencies
-	currConversion *currencyConversion
+	// Exchange rate w.r.t. EUR
+	exchangeRate *eurExchangeRate
 }
 
 // Returns a new Money instance
@@ -56,5 +56,10 @@ func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 	if !ok {
 		return nil, ErrUnsupportedCurrency
 	}
+	exchangeRate, err := newEurExchangeRate()
+	if err != nil {
+		return nil, err
+	}
+	m.exchangeRate = exchangeRate
 	return m, nil
 }
