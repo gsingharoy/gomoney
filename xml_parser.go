@@ -2,7 +2,6 @@ package gomoney
 
 import (
 	"encoding/xml"
-	"io"
 	"time"
 )
 
@@ -25,9 +24,9 @@ type xmlCurrCube struct {
 }
 
 // Parses the response into an exchangeRate struct
-func parseSOAPResponse(data io.Reader) (*eurExchangeRate, error) {
+func parseSOAPResponse(data []byte) (*eurExchangeRate, error) {
 	xmlTarget := &xmlEurExchangeRate{}
-	if err := xml.NewDecoder(data).Decode(xmlTarget); err != nil {
+	if err := xml.Unmarshal(data, xmlTarget); err != nil {
 		return nil, err
 	}
 	exgDate, _ := time.Parse("2006-01-02", xmlTarget.OuterCube.InnerCube.Time)

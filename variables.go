@@ -4,6 +4,7 @@ import "errors"
 
 // Standard currency values supported by the library
 var supportedCurrencies = map[string]bool{
+	"EUR": true,
 	"USD": true,
 	"JPY": true,
 	"BGN": true,

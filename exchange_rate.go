@@ -1,6 +1,7 @@
 package gomoney
 
 import (
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -19,5 +20,9 @@ func newEurExchangeRate() (*eurExchangeRate, error) {
 		return nil, err
 	}
 	defer r.Body.Close()
-	return parseSOAPResponse(r.Body)
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return nil, err
+	}
+	return parseSOAPResponse(data)
 }

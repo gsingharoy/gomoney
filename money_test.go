@@ -5,12 +5,13 @@ import (
 	"strings"
 	"testing"
 
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
-
 	"github.com/stretchr/testify/assert"
+	httpmock "gopkg.in/jarcoal/httpmock.v1"
 )
 
 func TestNewMoney(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 	t.Log("When the currency is an unsupported currency")
 	for _, curr := range []string{"xxx", "yyy", "345", "galleon"} {
 		_, err := NewMoney(100, curr)
@@ -22,9 +23,10 @@ func TestNewMoney(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	httpmock.RegisterResponder("GET", "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+	httpmock.RegisterResponder("GET", urlEUExchangeRate,
 		httpmock.NewStringResponder(200, string(data)))
 	validCurrs := []string{
+		"EUR",
 		"USD",
 		"JPY",
 		"BGN",
@@ -57,10 +59,10 @@ func TestNewMoney(t *testing.T) {
 		"THB",
 		"ZAR",
 	}
+	expectedExchangeRate := expectedEurExchangeRate1()
 	for _, curr := range validCurrs {
 		m, err := NewMoney(42, strings.ToLower(curr))
 		assert.Nil(t, err, "Expected no error")
-		expectedMoney := &Money{Amount: 42, BaseCurrency: strings.ToUpper(curr), exchangeRate: expectedEurExchangeRate1()}
-		assert.Equal(t, expectedMoney, m, "the money struct does not match")
+		assert.Equal(t, &Money{Amount: float64(42), BaseCurrency: strings.ToUpper(curr), exchangeRate: expectedExchangeRate}, m, "the money struct does not match")
 	}
 }

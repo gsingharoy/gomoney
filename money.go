@@ -1,6 +1,8 @@
 package gomoney
 
-import "strings"
+import (
+	"strings"
+)
 
 // Represents the basic Money unit.
 // Contains 3 main fields, viz.,
@@ -56,10 +58,10 @@ func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 	if !ok {
 		return nil, ErrUnsupportedCurrency
 	}
-	exchangeRate, err := newEurExchangeRate()
+	er, err := newEurExchangeRate()
 	if err != nil {
 		return nil, err
 	}
-	m.exchangeRate = exchangeRate
+	m.exchangeRate = er
 	return m, nil
 }
