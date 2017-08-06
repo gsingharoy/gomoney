@@ -14,6 +14,42 @@ type Money struct {
 	currConversion *currencyConversion
 }
 
+// Returns a new Money instance
+// amount:          [float64] Amount of the currency you want the money struct to be initialted with
+// baseCurrency:    [string] 3 char value of string. Accepted values are
+// []string{
+//     "USD",
+//     "JPY",
+//     "BGN",
+//     "CZK",
+//     "DKK",
+//     "GBP",
+//     "HUF",
+//     "PLN",
+//     "RON",
+//     "SEK",
+//     "CHF",
+//     "NOK",
+//     "HRK",
+//     "RUB",
+//     "TRY",
+//     "AUD",
+//     "BRL",
+//     "CAD",
+//     "CNY",
+//     "HKD",
+//     "IDR",
+//     "ILS",
+//     "INR",
+//     "KRW",
+//     "MXN",
+//     "MYR",
+//     "NZD",
+//     "PHP",
+//     "SGD",
+//     "THB",
+//     "ZAR",
+// }
 func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 	m := &Money{Amount: amount, BaseCurrency: strings.ToUpper(baseCurrency)}
 	_, ok := supportedCurrencies[m.BaseCurrency]
