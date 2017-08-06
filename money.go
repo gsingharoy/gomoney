@@ -54,8 +54,7 @@ type Money struct {
 // }
 func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 	m := &Money{Amount: amount, BaseCurrency: strings.ToUpper(baseCurrency)}
-	_, ok := supportedCurrencies[m.BaseCurrency]
-	if !ok {
+	if !validCurrency(m.BaseCurrency) {
 		return nil, ErrUnsupportedCurrency
 	}
 	er, err := newEurExchangeRate()
@@ -103,8 +102,7 @@ func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 // }
 func (m *Money) Convert(currency string) (float64, error) {
 	currency = strings.ToUpper(currency)
-	_, ok := supportedCurrencies[currency]
-	if !ok {
+	if !validCurrency(currency) {
 		return -1, ErrUnsupportedCurrency
 	}
 	if !m.valid() {
