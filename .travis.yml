@@ -13,7 +13,7 @@ after_success:
 
 notifications:
   email:
-  recipients:
-  - neogauravsvnit@gmail.com
-  on_success: change
-  on_failure: always
+    recipients:
+      - neogauravsvnit@gmail.com
+    on_success: change
+    on_failure: always
