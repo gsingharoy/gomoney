@@ -86,13 +86,15 @@ func TestMoneyConvert(t *testing.T) {
 
 	t.Log("When the money struct is valid and a valid currency is passed")
 	m3 := Money{BaseCurrency: "EUR", Amount: 10, exchangeRate: &eurExchangeRate{Rates: map[string]float64{"EUR": 1}}}
-	amt, err := m3.Convert("EUR")
+	resM, err := m3.Convert("EUR")
 	assert.Nil(t, err)
-	assert.Equal(t, float64(10), amt, "Expected amount to be the same")
+	assert.Equal(t, float64(10), resM.Amount, "Expected amount to be the same")
+	assert.Equal(t, "EUR", resM.BaseCurrency, "Expected the same base currency")
 
 	m4 := Money{BaseCurrency: "USD", Amount: 100, exchangeRate: &eurExchangeRate{Rates: map[string]float64{"EUR": 1, "USD": 1.1, "CHF": 0.9}}}
-	amt, err = m4.Convert("CHF")
+	resM, err = m4.Convert("CHF")
 	assert.Nil(t, err)
 	expectedAmount := float64((100 / 1.1) * 0.9)
-	assert.Equal(t, expectedAmount, amt, "Expected amount incorrectly converted")
+	assert.Equal(t, expectedAmount, resM.Amount, "Expected amount incorrectly converted")
+	assert.Equal(t, "CHF", resM.BaseCurrency, "Expected the base currency to be CHF")
 }
