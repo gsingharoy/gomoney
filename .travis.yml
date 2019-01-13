@@ -3,12 +3,13 @@ go:
  - 1.8.x
  - 1.9.x
  - 1.10.x
+ - tip
 
 before_install:
   - go get -u github.com/kardianos/govendor && govendor install
 
 script:
- - govendor test -coverprofile=profile.out -covermode=atomic
+ - govendor test -race -coverprofile=profile.out -covermode=atomic
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
