@@ -2,7 +2,7 @@
 
 A library implemented in golang to convert money into other currencies
 
-[![Build Status](https://travis-ci.org/gsingharoy/gomoney.svg?branch=master)](https://travis-ci.org/gsingharoy/gomoney)
+[![Build Status](https://travis-ci.org/gsingharoy/gomoney.svg?branch=master)](https://travis-ci.org/gsingharoy/gomoney)[![codecov](https://codecov.io/gh/gsingharoy/gomoney/branch/master/graph/badge.svg)](https://codecov.io/gh/gsingharoy/gomoney)
 
 ## Description
 This package contains a simple library which converts a currency amount to another supported currency. The exchange rates used here are published by the official [European Central Bank](http://www.ecb.europa.eu/stats/exchange/eurofxref/html/index.en.html).
