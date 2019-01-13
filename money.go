@@ -100,16 +100,16 @@ func NewMoney(amount float64, baseCurrency string) (*Money, error) {
 //     "THB",
 //     "ZAR",
 // }
-func (m *Money) Convert(currency string) (float64, error) {
+func (m *Money) Convert(currency string) (*Money, error) {
 	currency = strings.ToUpper(currency)
 	if !validCurrency(currency) {
-		return -1, ErrUnsupportedCurrency
+		return nil, ErrUnsupportedCurrency
 	}
 	if !m.valid() {
-		return -1, ErrInvalidMoneyObject
+		return nil, ErrInvalidMoneyObject
 	}
 	eurAmount := m.Amount / m.exchangeRate.Rates[m.BaseCurrency]
-	return eurAmount * m.exchangeRate.Rates[currency], nil
+	return NewMoney(eurAmount*m.exchangeRate.Rates[currency], currency)
 }
 
 // Returns if the money struct is a valid one
